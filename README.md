@@ -14,6 +14,14 @@ followed by one space (ASCII ` ` `0x20`) followed by the space separated factors
 There are some collections with strong pseudoprimes to the composite bases 4 to 100
 in the folder `raw_composite` and their factors in `factored_composite`.
 
+## How to get it as a compressed packet
+
+`wget https://github.com/czurnieden/sprps/archive/master.tar.gz`
+
+For the branch `master`. For the other branches yet to come replace `master.tar.gz`
+with `other_branch.tar.gz`.
+
+
 ### Why?
 It took over 100 CPU hours to generate that data and I hate to waste that.
 
