@@ -11,23 +11,27 @@ The factored data is in the folder `factored` with one strong pseudoprime per
 line with a Unix line-end (ASCII `\n` `0x0a`), followed by a colon (ASCII `:` `0x3a`)
 followed by one space (ASCII ` ` `0x20`) followed by the space separated factors.
 
-There are some collections with strong pseudoprimes to the composite bases 4 to 100
+There are some tables with strong pseudoprimes to the composite bases 4 to 100
 in the folder `raw_composite` and their factors in `factored_composite`.
 
-## How to get it as a compressed packet
+There are Fermat pseudoprimes to base 3 (three) in the folder `misc` up to
+`2^40` (1,099,511,627,776) together with their factoring. Because it is quite easy
+to get the strong pseudoprimes to base 3 (three) from that data the strong pseudoprimes
+to base 3 (three) together with their factoring is also in the folder `misc`.
+
+## How to get the whole repository as a compressed packet
 
 `wget https://github.com/czurnieden/sprps/archive/master.tar.gz`
 
 For the branch `master`. For the other branches yet to come replace `master.tar.gz`
 with `other_branch.tar.gz`.
 
-
 ### Why?
-It took over 100 CPU hours to generate that data and I hate to waste that.
+It took over 150 CPU hours to generate that data and I hate to waste that.
 
 ## License
 The license here is "unlicense" but the raw data itself, being just data,
-is Public Domain, of course.
+is Public Domain, of course. Yes, there is a difference.
 
 ## Is there more to come?
 Probably.
@@ -38,11 +42,11 @@ Probably.
  - SPRP to more composite bases (planned is up to base 10008)
 
 ### Planned:
- - extend 2-SPRP `>2^64`
+ - extend 2-SPRP `>2^64` (first one `>2^64` is, believe it or not: `1 + 2^64`)
  - extend 7-SPRP and 61-SPRP `>2^32` but only a bit to check distribution
 
 ## Help needed?
-If you have some CPU cycles to spare or already computed some tables not in this
+If you have some CPU cycles to spare or already computed some tables/data not in this
 collection: you are heartily welcome!
 
 ## Where are the sources?
