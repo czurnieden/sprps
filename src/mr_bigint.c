@@ -6,10 +6,10 @@
 #include <string.h>
 #include <stdbool.h>
 
-/* Adapt to your paths. */
-#include "tommath.h"
-#include "tommath_private.h"
-static void print_word(mp_word n);
+
+#include <tommath.h>
+/* It is defined in tommath_private.h which does not get installed */
+typedef unsigned long mp_word __attribute__((mode(TI)));
 
 /* Print bigint with the given prefix and a Unix EOL character  */
 static void mp_print(const char *s, const mp_int *a, int radix, FILE *stream)
@@ -52,7 +52,6 @@ LTM_ERR:
 int main(int argc, char **argv)
 {
    mp_int N, b;
-   mp_word start_point = 0ull;
    mp_digit base = 0ul;
    mp_err err = MP_OKAY;
    bool result = false;
@@ -70,7 +69,7 @@ int main(int argc, char **argv)
       exit(EXIT_FAILURE);
    }
 
-   if( (err = mp_read_radix(mp_int &N, argv[2], 10) ) != MP_OKAY)                     goto LTM_ERR;
+   if( (err = mp_read_radix(&N, argv[2], 10) ) != MP_OKAY)                     goto LTM_ERR;
 
    printf("base = %"PRIu64", startpoint = ", base);
    mp_print("", &N, 10, stdout);
