@@ -31,8 +31,10 @@ ifneq (,$(SANITIZER))
 CFLAGS +=  -fsanitize=undefined -fno-sanitize-recover=all
 endif
 
+all: factoring miller_rabin mr_bigint fermat
+
 clean:
-	rm -f *.o *.obj *.exe factoring miller_rabin mr_bigint
+	rm -f *.o *.obj *.exe factoring miller_rabin mr_bigint fermat_bigint
 
 factoring:
 	$(CC) $(CFLAGS) factoring.c -o factoring
@@ -43,5 +45,8 @@ miller_rabin:
 mr_bigint:
 	$(CC) $(CFLAGS) mr_bigint.c -o mr_bigint -ltommath
 
-all: factoring miller_rabin mr_bigint
-	echo "Done"
+fermat:
+# MAX_SIEVE=20 worked well here, YMMV, of course (max.: MAX_SIEVE=512)
+	$(CC) $(CFLAGS) -DUSE_SIEVE -DMAX_SIEVE=20  fermat_bigint.c -o fermat_bigint -ltommath
+
+
