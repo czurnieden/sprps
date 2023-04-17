@@ -19,6 +19,9 @@ There are Fermat pseudoprimes to base 3 (three) in the folder `misc` up to
 to get the strong pseudoprimes to base 3 (three) from that data the strong pseudoprimes
 to base 3 (three) together with their factoring is also in the folder `misc`.
 
+There is a script `compute_3psp_parallel.sh` to run the 3-psp search in parallel in the
+folder `scripts`. Currentyl base 3 is hardcoded but can be changed manually in the script.
+
 ## How to get the whole repository as a compressed packet
 
 `wget https://github.com/czurnieden/sprps/archive/master.tar.gz`
