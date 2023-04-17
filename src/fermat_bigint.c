@@ -336,6 +336,9 @@ int main(int argc, char **argv)
    }
 
    for (uint64_t i = 0ul; i < UINT32_MAX/2; i++) {
+      if ((i != 0) && ((i % 1000000ul) == 0ul)) {
+         mp_print("At: ", &N, 10, stderr);
+      }
       /* Sieving, even that little, saves about 30% in time */
 #ifdef USE_SIEVE
       if ((err = is_not_psp(&N, &result)) != MP_OKAY)        goto LTM_ERR;
@@ -352,9 +355,6 @@ int main(int argc, char **argv)
          }
       }
       if ((err = mp_add_d(&N, 2, &N)) != MP_OKAY)                                    goto LTM_ERR;
-      if ((i != 0) && ((i % 1000000ul) == 0ul)) {
-         mp_print("At: ", &N, 10, stderr);
-      }
    }
 
    mp_clear_multi(&N, &b, NULL);
