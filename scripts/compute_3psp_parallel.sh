@@ -27,8 +27,14 @@ if [ $? -ne 0 ] ; then
    echo "nproc not found, trying getconf"
    getconf _NPROCESSORS_ONLN;
    if [ $? -ne 0 ] ; then
-     echo "nproc not found, getconf not found, giving up. Please set \"-j\" manually" 
-     exit 127;
+     echo "nproc not found, getconf not found, trying parallel itself" 
+     parallel --number-of-cores
+     if [ $? -ne 0 ] ; then
+        echo "Parallel must have worked which means that parallel is not isntalled or broken. Exiting."
+        exit 127;
+     else
+         CORE_COUNT=$(parallel --number-of-cores)
+     fi
    else
       CORE_COUNT=$(getconf _NPROCESSORS_ONLN)
    fi
@@ -69,7 +75,10 @@ njobs=$CORE_COUNT
 # about an hour and some change per job on my AMD A8-6600K at full throttle (3900 MHz)
 # will be slightly more the larger the start values get
 blocksize="2^34"
-verbose=0;
+verbose=0
+pverbose=""
+joblog=""
+logfile=""
 dryrun=""
 # TODO: this makes the actual file, but we only need the name
 tmpfilename=$(mktemp -q ./XXXXXXXpsp3.part)
@@ -80,7 +89,11 @@ while getopts "s:j:z:h?vdc" options; do
       s) tstart=${OPTARG};;
       j) njobs=${OPTARG};;
       z) blocksize=${OPTARG};;
-      v) verbose=1;;
+      v) verbose=1
+         pverbose="--verbose"
+         logfile=$(mktemp -q ./XXXXXXXpsp3.joblog)
+         joblog="--joblog"
+         ;;
       c) cleanup=1;;
       d) dryrun="--dryrun";;
       h|\?)
@@ -89,7 +102,7 @@ while getopts "s:j:z:h?vdc" options; do
          echo "   -j number of jobs"
          echo "   -z size of blocks"
          echo "   -d dryrun, do nothing, just print the commands"
-         echo "   -v verbose, although not by much"
+         echo "   -v be more verbose"
          echo "   -c clean-up. Deletes all temporary files. Be careful!"
          echo "   -h this help"
          exit 0;
@@ -99,6 +112,7 @@ done
 
 if [ $verbose -eq 1 ] ; then
    echo "Starting at $tstart with $njobs jobs and a block of size $blocksize."
+   echo "Logfile is $logfile"
    if [ ! -z $dryrun ] ; then
       echo "Don't worry, it is a dry-run, nothing will be executed, just printed"
       echo ""
@@ -120,8 +134,12 @@ fi
 
 bcline="tstart = $tstart;tend = 0;njobs = $njobs + 1;size = $blocksize;start = tstart;for(n=1;n < njobs;n++){tend = start + n * size; print tstart, \",\", tend, \" \"; tstart = tend + 1;}"
 # Will fill files psp3.part1, psp3.part2, psp3.part3, ..., psp3.part$njobs 
-parallel $dryrun -j $njobs  "perl -Mntheory=:all -E 'foroddcomposites { say if is_pseudoprime(\$_,3) } {} '" ">" $tmpfilename{%} ::: $(echo "$bcline" |  BC_LINE_LENGTH=0 bc -q)
-
+parallel $dryrun $pverbose $joblog $logfile -j $njobs  "perl -Mntheory=:all -E 'foroddcomposites { say if is_pseudoprime(\$_,3) } {} '" ">" $tmpfilename{%} ::: $(echo "$bcline" |  BC_LINE_LENGTH=0 bc -q)
+if [ $? -ne 0 ] ; then
+   echo "Program  \"parallel\" exited with a failure"
+   echo"See $logfile for details if any. Aborting now."
+   exit 127;
+fi
 # If you want to check the output while it is worked at, you need to switch Perl's output buffer off.
 # It is a bit slower but the 3-PSPs get quite sparse quite quickly, the difference is neglible.
 # parallel $dryrun -j $njobs  "perl -Mntheory=:all -E 'STDOUT->autoflush(1);  foroddcomposites { say if is_pseudoprime(\$_,3) } {} '" ">" psp3.part{%} ::: $(echo "$bcline" |  BC_LINE_LENGTH=0 bc -q)
