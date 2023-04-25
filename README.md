@@ -22,6 +22,11 @@ to base 3 (three) together with their factoring is also in the folder `misc`.
 There is a script `compute_3psp_parallel.sh` to run the 3-psp search in parallel in the
 folder `scripts`. Currentyl base 3 is hardcoded but can be changed manually in the script.
 
+## What is not in the repository?
+Large files:
+ - A file with the modular order of three for all primes below `2^32` is in ax
+   [Google drive](https://drive.google.com/file/d/1Uadc7Eolh6bI-3Tgt86W5CY1p0dkAD9g/view?usp=sharing)
+
 ## How to get the whole repository as a compressed packet
 
 `wget https://github.com/czurnieden/sprps/archive/master.tar.gz`
