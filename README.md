@@ -23,12 +23,16 @@ There are several files with strong pseudoprimes to several bases
 `((((((2,3,5),7),11),13),17),19)` and `(2, 3, 5, 7, 61)` up to `2^64` in the folder `misc`.
 
 There is a script `compute_3psp_parallel.sh` to run the 3-psp search in parallel in the
-folder `scripts`. Currentyl base 3 is hardcoded but can be changed manually in the script.
+folder `scripts`. Currently base 3 is hardcoded but can be changed manually in the script.
 
 ## What is not in the repository?
 Large files:
  - A file with the modular order of three for all primes below `2^32` is in an
    [Google drive](https://drive.google.com/file/d/1Uadc7Eolh6bI-3Tgt86W5CY1p0dkAD9g/view?usp=sharing)
+ - Combinations of three of the current (may or may not been updated) bases (gzipped).
+   [Google drive](https://drive.google.com/file/d/1JdmNHjHM13IugvVfFM2ZxvWdxgbrywcg/view?usp=sharing)
+ - Combinations of three of the current (may or may not been updated) bases (gzipped), prime-bases only.
+   [Google drive](https://drive.google.com/file/d/1CbY5zTwKDyxloQ2Hz7o4sX8Tbjk33gtq/view?usp=sharing)
 
 ## How to get the whole repository as a compressed packet
 
